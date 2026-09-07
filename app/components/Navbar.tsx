@@ -3,11 +3,13 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { BookOpen, Gamepad2, Home, Menu, X, Binary } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useFontSize, FontSize } from './FontSizeProvider';
 
 export default function Navbar() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { fontSize, setFontSize } = useFontSize();
 
   // Add scroll listener for dynamic shadow/border
   useEffect(() => {
@@ -37,24 +39,54 @@ export default function Navbar() {
             <span>Bin<span className="text-teal-500">Learn</span></span>
           </Link>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex gap-1 bg-slate-100/50 p-1.5 rounded-2xl border border-slate-200/50">
-            {navLinks.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-teal-500 ${
-                    isActive 
-                      ? 'bg-white text-teal-600 shadow-sm ring-1 ring-slate-900/5' 
-                      : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'
-                  }`}
-                >
-                  {link.icon} {link.name}
-                </Link>
-              );
-            })}
+          {/* Desktop Menu & Settings */}
+          <div className="hidden md:flex items-center gap-4">
+            <div className="flex gap-1 bg-slate-100/50 p-1.5 rounded-2xl border border-slate-200/50">
+              {navLinks.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-teal-500 ${
+                      isActive 
+                        ? 'bg-white text-teal-600 shadow-sm ring-1 ring-slate-900/5' 
+                        : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'
+                    }`}
+                  >
+                    {link.icon} {link.name}
+                  </Link>
+                );
+              })}
+            </div>
+            
+            {/* Font Size Settings */}
+            <div className="flex items-center gap-1 bg-slate-100/50 p-1.5 rounded-2xl border border-slate-200/50">
+              <button 
+                onClick={() => setFontSize('small')} 
+                className={`px-3 py-2 rounded-xl font-bold transition-all text-sm ${fontSize === 'small' ? 'bg-white text-teal-600 shadow-sm ring-1 ring-slate-900/5' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'}`}
+                aria-label="ลดขนาดตัวอักษร"
+                title="ลดขนาดตัวอักษร"
+              >
+                A-
+              </button>
+              <button 
+                onClick={() => setFontSize('normal')} 
+                className={`px-3 py-2 rounded-xl font-bold transition-all text-base ${fontSize === 'normal' ? 'bg-white text-teal-600 shadow-sm ring-1 ring-slate-900/5' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'}`}
+                aria-label="ขนาดตัวอักษรปกติ"
+                title="ขนาดตัวอักษรปกติ"
+              >
+                A
+              </button>
+              <button 
+                onClick={() => setFontSize('large')} 
+                className={`px-3 py-2 rounded-xl font-bold transition-all text-lg ${fontSize === 'large' ? 'bg-white text-teal-600 shadow-sm ring-1 ring-slate-900/5' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'}`}
+                aria-label="เพิ่มขนาดตัวอักษร"
+                title="เพิ่มขนาดตัวอักษร"
+              >
+                A+
+              </button>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -89,6 +121,24 @@ export default function Navbar() {
                 </Link>
               );
             })}
+            
+            <div className="pt-4 mt-2 border-t border-slate-100 flex items-center justify-between px-2">
+              <span className="text-slate-500 font-bold">ขนาดตัวอักษร</span>
+              <div className="flex items-center gap-1 bg-slate-100/50 p-1.5 rounded-2xl border border-slate-200/50">
+                <button 
+                  onClick={() => setFontSize('small')} 
+                  className={`px-4 py-2 rounded-xl font-bold transition-all text-sm ${fontSize === 'small' ? 'bg-white text-teal-600 shadow-sm ring-1 ring-slate-900/5' : 'text-slate-500'}`}
+                >A-</button>
+                <button 
+                  onClick={() => setFontSize('normal')} 
+                  className={`px-4 py-2 rounded-xl font-bold transition-all text-base ${fontSize === 'normal' ? 'bg-white text-teal-600 shadow-sm ring-1 ring-slate-900/5' : 'text-slate-500'}`}
+                >A</button>
+                <button 
+                  onClick={() => setFontSize('large')} 
+                  className={`px-4 py-2 rounded-xl font-bold transition-all text-lg ${fontSize === 'large' ? 'bg-white text-teal-600 shadow-sm ring-1 ring-slate-900/5' : 'text-slate-500'}`}
+                >A+</button>
+              </div>
+            </div>
           </div>
         </div>
       )}

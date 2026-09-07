@@ -18,14 +18,14 @@ describe('Quiz Page', () => {
     render(<QuizPage />);
     expect(screen.getByText(/โจทย์ทดสอบ/i)).toBeInTheDocument();
     expect(screen.getByText(/ผลคะแนน/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /ตรวจคำตอบ/i })).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: /ตรวจคำตอบ/i })[0]).toBeInTheDocument();
   });
 
   it('generates a question and handles input', () => {
     render(<QuizPage />);
     
     // The question should be visible (a string of 0s and 1s or decimal number)
-    const input = screen.getByPlaceholderText(/พิมพ์เลขฐาน/i);
+    const input = screen.getAllByPlaceholderText(/พิมพ์เลขฐาน/i)[0];
     expect(input).toBeInTheDocument();
     
     // Simulate user typing
@@ -36,24 +36,24 @@ describe('Quiz Page', () => {
   it('toggles hints', () => {
     render(<QuizPage />);
     
-    const hintBtn = screen.getByRole('button', { name: /ขอคำใบ้หน่อย!/i });
+    const hintBtn = screen.getAllByRole('button', { name: /ขอคำใบ้หน่อย!/i })[0];
     expect(hintBtn).toBeInTheDocument();
     
     // Click hint
     fireEvent.click(hintBtn);
     
     // Hint content should appear
-    expect(screen.getByText(/ทริค:/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /ซ่อนคำใบ้/i })).toBeInTheDocument();
+    expect(screen.getAllByText(/ทริค:/i)[0]).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: /ซ่อนคำใบ้/i })[0]).toBeInTheDocument();
   });
 
   it('changes difficulty', () => {
     render(<QuizPage />);
     
-    const hardBtn = screen.getByRole('button', { name: /HARD/i });
+    const hardBtn = screen.getAllByRole('button', { name: /HARD/i })[0];
     fireEvent.click(hardBtn);
     
     // Score should reset (Accuracy 0%)
-    expect(screen.getByText('0', { selector: 'span.text-6xl.font-black' })).toBeInTheDocument();
+    expect(screen.getAllByText('0', { selector: 'span.text-6xl.font-black' })[0]).toBeInTheDocument();
   });
 });

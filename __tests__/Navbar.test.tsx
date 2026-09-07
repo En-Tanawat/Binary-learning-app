@@ -31,7 +31,7 @@ describe('Navbar Component', () => {
     
     // In desktop view, mobile menu is hidden but DOM elements might be conditional
     // Find the toggle button
-    const toggleBtn = screen.getByRole('button', { name: /Toggle Menu/i });
+    const toggleBtn = screen.getAllByRole('button', { name: /Toggle Menu/i })[0];
     expect(toggleBtn).toBeInTheDocument();
     
     // Initially the mobile menu dropdown might not be in the document
